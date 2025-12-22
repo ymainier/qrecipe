@@ -10,7 +10,8 @@
     "test": "echo 'No tests configured yet'",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "db:seed": "tsx db/seed.ts"
   },
   "dependencies": {
     "better-auth": "^1.4.7",
@@ -30,6 +31,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.1.0",
     "tailwindcss": "^4",
+    "tsx": "^4.21.0",
     "typescript": "^5"
   }
 }
