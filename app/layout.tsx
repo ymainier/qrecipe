@@ -15,6 +15,10 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "QRecipe",
   description: "Recipe storage and display application",
+  icons: {
+    icon: "/chef.png",
+    apple: "/chef.png",
+  },
 };
 
 export default function RootLayout({

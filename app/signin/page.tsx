@@ -1,4 +1,5 @@
 import { headers } from "next/headers";
+import Image from "next/image";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { auth } from "@/lib/auth";
@@ -43,8 +44,14 @@ export default async function SignInPage({ searchParams }: SignInPageProps) {
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <Link href="/" className="mb-2 text-4xl">
-            🍽️
+          <Link href="/" className="mb-2 flex justify-center">
+            <Image
+              src="/chef.png"
+              alt="QRecipe logo"
+              width={64}
+              height={64}
+              priority
+            />
           </Link>
           <CardTitle className="text-2xl">Sign in to QRecipe</CardTitle>
           <CardDescription>
