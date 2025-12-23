@@ -2,6 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 type Ingredient = { name: string; quantity: string; unit: string };
 type Step = { instruction: string };
@@ -125,236 +130,160 @@ export function RecipeForm({
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {error ? (
-        <div className="bg-red-50 text-red-700 p-4 rounded-md">{error}</div>
+        <Alert variant="destructive">
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
       ) : null}
 
-      <div>
-        <label
-          htmlFor="title"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Title *
-        </label>
-        <input
+      <div className="space-y-2">
+        <Label htmlFor="title">Title *</Label>
+        <Input
           type="text"
           id="title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           required
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-        />
-      </div>
-
-      <div>
-        <label
-          htmlFor="description"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Description
-        </label>
-        <textarea
-          id="description"
-          rows={3}
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
         />
       </div>
 
       <div className="grid grid-cols-3 gap-4">
-        <div>
-          <label
-            htmlFor="servings"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Servings
-          </label>
-          <input
+        <div className="space-y-2">
+          <Label htmlFor="servings">Servings</Label>
+          <Input
             type="number"
             id="servings"
             min="1"
             value={servings}
             onChange={(e) => setServings(e.target.value)}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           />
         </div>
-        <div>
-          <label
-            htmlFor="prepTime"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Prep Time (min)
-          </label>
-          <input
+        <div className="space-y-2">
+          <Label htmlFor="prepTime">Prep Time (min)</Label>
+          <Input
             type="number"
             id="prepTime"
             min="0"
             value={prepTime}
             onChange={(e) => setPrepTime(e.target.value)}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           />
         </div>
-        <div>
-          <label
-            htmlFor="cookTime"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Cook Time (min)
-          </label>
-          <input
+        <div className="space-y-2">
+          <Label htmlFor="cookTime">Cook Time (min)</Label>
+          <Input
             type="number"
             id="cookTime"
             min="0"
             value={cookTime}
             onChange={(e) => setCookTime(e.target.value)}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           />
         </div>
       </div>
 
-      <div>
-        <label
-          htmlFor="imageUrl"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Image URL
-        </label>
-        <input
-          type="url"
-          id="imageUrl"
-          value={imageUrl}
-          onChange={(e) => setImageUrl(e.target.value)}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-        />
-      </div>
-
-      <div>
-        <div className="flex justify-between items-center mb-2">
-          <label className="block text-sm font-medium text-gray-700">
-            Ingredients
-          </label>
-          <button
-            type="button"
-            onClick={addIngredient}
-            className="text-sm text-indigo-600 hover:text-indigo-500"
-          >
+      <div className="space-y-2">
+        <div className="flex items-center justify-between">
+          <Label>Ingredients</Label>
+          <Button type="button" variant="ghost" size="sm" onClick={addIngredient}>
             + Add Ingredient
-          </button>
+          </Button>
         </div>
         <div className="space-y-2">
           {ingredients.map((ing, index) => (
-            <div key={index} className="flex gap-2 items-start">
-              <input
+            <div key={index} className="flex items-start gap-2">
+              <Input
                 type="text"
-                placeholder="Quantity"
+                placeholder="Qty"
                 value={ing.quantity}
                 onChange={(e) =>
                   updateIngredient(index, "quantity", e.target.value)
                 }
-                className="w-20 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                className="w-20"
               />
-              <input
+              <Input
                 type="text"
                 placeholder="Unit"
                 value={ing.unit}
                 onChange={(e) =>
                   updateIngredient(index, "unit", e.target.value)
                 }
-                className="w-20 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                className="w-20"
               />
-              <input
+              <Input
                 type="text"
                 placeholder="Ingredient name"
                 value={ing.name}
                 onChange={(e) =>
                   updateIngredient(index, "name", e.target.value)
                 }
-                className="flex-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                className="flex-1"
               />
               {ingredients.length > 1 ? (
-                <button
+                <Button
                   type="button"
+                  variant="ghost"
+                  size="sm"
                   onClick={() => removeIngredient(index)}
-                  className="text-red-600 hover:text-red-500 px-2"
+                  className="text-destructive hover:text-destructive"
                 >
-                  x
-                </button>
+                  ×
+                </Button>
               ) : null}
             </div>
           ))}
         </div>
       </div>
 
-      <div>
-        <div className="flex justify-between items-center mb-2">
-          <label className="block text-sm font-medium text-gray-700">
-            Steps
-          </label>
-          <button
-            type="button"
-            onClick={addStep}
-            className="text-sm text-indigo-600 hover:text-indigo-500"
-          >
+      <div className="space-y-2">
+        <div className="flex items-center justify-between">
+          <Label>Steps</Label>
+          <Button type="button" variant="ghost" size="sm" onClick={addStep}>
             + Add Step
-          </button>
+          </Button>
         </div>
         <div className="space-y-2">
           {steps.map((step, index) => (
-            <div key={index} className="flex gap-2 items-start">
-              <span className="text-gray-500 mt-2 w-6">{index + 1}.</span>
-              <textarea
+            <div key={index} className="flex items-start gap-2">
+              <span className="mt-2 w-6 text-muted-foreground">{index + 1}.</span>
+              <Textarea
                 placeholder="Step instruction"
                 value={step.instruction}
                 onChange={(e) => updateStep(index, e.target.value)}
                 rows={2}
-                className="flex-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                className="flex-1"
               />
               {steps.length > 1 ? (
-                <button
+                <Button
                   type="button"
+                  variant="ghost"
+                  size="sm"
                   onClick={() => removeStep(index)}
-                  className="text-red-600 hover:text-red-500 px-2"
+                  className="text-destructive hover:text-destructive"
                 >
-                  x
-                </button>
+                  ×
+                </Button>
               ) : null}
             </div>
           ))}
         </div>
       </div>
 
-      <div>
-        <label
-          htmlFor="tags"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Tags (comma-separated)
-        </label>
-        <input
+      <div className="space-y-2">
+        <Label htmlFor="tags">Tags (comma-separated)</Label>
+        <Input
           type="text"
           id="tags"
           value={tagsInput}
           onChange={(e) => setTagsInput(e.target.value)}
           placeholder="e.g., vegetarian, quick, dinner"
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
         />
       </div>
 
       <div className="flex justify-end gap-4">
-        <button
-          type="button"
-          onClick={() => router.back()}
-          className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50"
-        >
+        <Button type="button" variant="outline" onClick={() => router.back()}>
           Cancel
-        </button>
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 disabled:opacity-50"
-        >
+        </Button>
+        <Button type="submit" disabled={isSubmitting}>
           {isSubmitting ? "Saving..." : submitLabel}
-        </button>
+        </Button>
       </div>
     </form>
   );

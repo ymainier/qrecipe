@@ -4,6 +4,8 @@ import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { RecipeForm } from "../../recipe-form";
 import { getRecipe, updateRecipe } from "../../actions";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -49,28 +51,27 @@ export default async function EditRecipePage({ params }: Props) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow">
-        <div className="max-w-7xl mx-auto px-4 py-6">
-          <div className="flex items-center gap-4">
-            <Link
-              href={`/recipes/${id}`}
-              className="text-gray-500 hover:text-gray-700"
-            >
-              &larr; Back
-            </Link>
-            <h1 className="text-3xl font-bold text-gray-900">Edit Recipe</h1>
-          </div>
+    <div className="min-h-screen bg-background">
+      <header className="border-b">
+        <div className="mx-auto flex max-w-4xl items-center gap-4 px-4 py-4">
+          <Button variant="ghost" size="sm" asChild>
+            <Link href={`/recipes/${id}`}>&larr; Back</Link>
+          </Button>
         </div>
       </header>
-      <main className="max-w-3xl mx-auto px-4 py-8">
-        <div className="bg-white shadow rounded-lg p-6">
-          <RecipeForm
-            initialData={initialData}
-            onSubmit={handleUpdate}
-            submitLabel="Save Changes"
-          />
-        </div>
+      <main className="mx-auto max-w-4xl px-4 py-8">
+        <Card>
+          <CardHeader>
+            <CardTitle>Edit {recipe.title}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <RecipeForm
+              initialData={initialData}
+              onSubmit={handleUpdate}
+              submitLabel="Save Changes"
+            />
+          </CardContent>
+        </Card>
       </main>
     </div>
   );

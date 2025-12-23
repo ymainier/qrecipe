@@ -4,6 +4,10 @@ import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { getRecipe } from "../actions";
 import { DeleteRecipeButton } from "./delete-button";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -29,130 +33,121 @@ export default async function RecipePage({ params }: Props) {
     (recipe.prepTime ?? 0) + (recipe.cookTime ?? 0) || null;
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow">
-        <div className="max-w-7xl mx-auto px-4 py-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Link
-                href="/recipes"
-                className="text-gray-500 hover:text-gray-700"
-              >
-                &larr; Back
-              </Link>
-              <h1 className="text-3xl font-bold text-gray-900">
-                {recipe.title}
-              </h1>
-            </div>
-            <div className="flex items-center gap-2">
-              <Link
-                href={`/recipes/${id}/edit`}
-                className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50"
-              >
-                Edit
-              </Link>
-              <DeleteRecipeButton recipeId={id} />
-            </div>
+    <div className="min-h-screen bg-background">
+      <header className="border-b">
+        <div className="mx-auto flex max-w-4xl items-center justify-between px-4 py-4">
+          <div className="flex items-center gap-4">
+            <Button variant="ghost" size="sm" asChild>
+              <Link href="/recipes">&larr; Back</Link>
+            </Button>
+          </div>
+          <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" asChild>
+              <Link href={`/recipes/${id}/edit`}>Edit</Link>
+            </Button>
+            <DeleteRecipeButton recipeId={id} />
           </div>
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-4 py-8">
-        <div className="bg-white shadow rounded-lg overflow-hidden">
+      <main className="mx-auto max-w-4xl px-4 py-8">
+        <Card>
           {recipe.imageUrl ? (
             <img
               src={recipe.imageUrl}
               alt={recipe.title}
-              className="w-full h-64 object-cover"
+              className="h-64 w-full rounded-t-xl object-cover"
             />
           ) : null}
 
-          <div className="p-6">
+          <CardHeader>
+            <CardTitle className="text-2xl">{recipe.title}</CardTitle>
             {recipe.description ? (
-              <p className="text-gray-600 mb-6">{recipe.description}</p>
+              <p className="text-muted-foreground">{recipe.description}</p>
             ) : null}
+          </CardHeader>
 
-            <div className="flex flex-wrap gap-6 mb-6 text-sm text-gray-500">
+          <CardContent className="space-y-6">
+            <div className="flex flex-wrap gap-4 text-sm">
               {recipe.servings ? (
-                <div>
-                  <span className="font-medium text-gray-700">Servings:</span>{" "}
-                  {recipe.servings}
+                <div className="flex items-center gap-1">
+                  <span className="font-medium">Servings:</span>
+                  <span className="text-muted-foreground">{recipe.servings}</span>
                 </div>
               ) : null}
               {recipe.prepTime ? (
-                <div>
-                  <span className="font-medium text-gray-700">Prep Time:</span>{" "}
-                  {recipe.prepTime} min
+                <div className="flex items-center gap-1">
+                  <span className="font-medium">Prep:</span>
+                  <span className="text-muted-foreground">{recipe.prepTime} min</span>
                 </div>
               ) : null}
               {recipe.cookTime ? (
-                <div>
-                  <span className="font-medium text-gray-700">Cook Time:</span>{" "}
-                  {recipe.cookTime} min
+                <div className="flex items-center gap-1">
+                  <span className="font-medium">Cook:</span>
+                  <span className="text-muted-foreground">{recipe.cookTime} min</span>
                 </div>
               ) : null}
               {totalTime ? (
-                <div>
-                  <span className="font-medium text-gray-700">Total Time:</span>{" "}
-                  {totalTime} min
+                <div className="flex items-center gap-1">
+                  <span className="font-medium">Total:</span>
+                  <span className="text-muted-foreground">{totalTime} min</span>
                 </div>
               ) : null}
             </div>
 
             {recipe.recipeTags.length > 0 ? (
-              <div className="mb-6">
-                <div className="flex flex-wrap gap-2">
-                  {recipe.recipeTags.map((rt) => (
-                    <span
-                      key={rt.tag.id}
-                      className="inline-block px-3 py-1 text-sm bg-indigo-100 text-indigo-700 rounded-full"
-                    >
-                      {rt.tag.name}
-                    </span>
-                  ))}
-                </div>
+              <div className="flex flex-wrap gap-2">
+                {recipe.recipeTags.map((rt) => (
+                  <Badge key={rt.tag.id} variant="secondary">
+                    {rt.tag.name}
+                  </Badge>
+                ))}
               </div>
             ) : null}
 
             {recipe.ingredients.length > 0 ? (
-              <div className="mb-8">
-                <h2 className="text-xl font-semibold text-gray-900 mb-4">
-                  Ingredients
-                </h2>
-                <ul className="space-y-2">
-                  {recipe.ingredients.map((ing) => (
-                    <li key={ing.id} className="flex items-start gap-2">
-                      <span className="text-indigo-600">•</span>
-                      <span>
-                        {ing.quantity ? `${ing.quantity} ` : ""}
-                        {ing.unit ? `${ing.unit} ` : ""}
-                        {ing.name}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              <>
+                <Separator />
+                <div>
+                  <h2 className="mb-4 text-lg font-semibold">Ingredients</h2>
+                  <ul className="space-y-2">
+                    {recipe.ingredients.map((ing) => (
+                      <li key={ing.id} className="flex items-start gap-2">
+                        <span className="text-primary">•</span>
+                        <span>
+                          {ing.quantity ? `${ing.quantity} ` : ""}
+                          {ing.unit ? `${ing.unit} ` : ""}
+                          {ing.name}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </>
             ) : null}
 
             {recipe.steps.length > 0 ? (
-              <div>
-                <h2 className="text-xl font-semibold text-gray-900 mb-4">
-                  Instructions
-                </h2>
-                <ol className="space-y-4">
-                  {recipe.steps.map((step, index) => (
-                    <li key={step.id} className="flex gap-4">
-                      <span className="flex-shrink-0 w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center font-medium">
-                        {index + 1}
-                      </span>
-                      <p className="text-gray-700 pt-1">{step.instruction}</p>
-                    </li>
-                  ))}
-                </ol>
-              </div>
+              <>
+                <Separator />
+                <div>
+                  <h2 className="mb-4 text-lg font-semibold">Instructions</h2>
+                  <ol className="space-y-4">
+                    {recipe.steps.map((step, index) => (
+                      <li key={step.id} className="flex gap-4">
+                        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-medium text-primary-foreground">
+                          {index + 1}
+                        </span>
+                        <p className="pt-1 text-muted-foreground">
+                          {step.instruction}
+                        </p>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              </>
             ) : null}
-          </div>
-        </div>
+          </CardContent>
+        </Card>
       </main>
     </div>
   );
