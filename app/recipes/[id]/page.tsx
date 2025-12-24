@@ -2,6 +2,7 @@ import { headers } from "next/headers";
 import { redirect, notFound } from "next/navigation";
 import Link from "next/link";
 import { auth } from "@/lib/auth";
+import { PageHeader } from "@/components/page-header";
 import { getRecipe } from "../actions";
 import { DeleteRecipeButton } from "./delete-button";
 import { Button } from "@/components/ui/button";
@@ -34,21 +35,22 @@ export default async function RecipePage({ params }: Props) {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b">
-        <div className="mx-auto flex max-w-4xl items-center justify-between px-4 py-4">
-          <div className="flex items-center gap-4">
-            <Button variant="ghost" size="sm" asChild>
-              <Link href="/recipes">&larr; Back</Link>
-            </Button>
-          </div>
-          <div className="flex items-center gap-2">
+      <PageHeader
+        breadcrumbs={[
+          { label: "Home", href: "/" },
+          { label: "Recipes", href: "/recipes" },
+          { label: recipe.title },
+        ]}
+        user={session.user}
+        actions={
+          <>
             <Button variant="outline" size="sm" asChild>
               <Link href={`/recipes/${id}/edit`}>Edit</Link>
             </Button>
             <DeleteRecipeButton recipeId={id} />
-          </div>
-        </div>
-      </header>
+          </>
+        }
+      />
 
       <main className="mx-auto max-w-4xl px-4 py-8">
         <Card>

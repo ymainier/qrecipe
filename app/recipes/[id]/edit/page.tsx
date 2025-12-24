@@ -1,10 +1,9 @@
 import { headers } from "next/headers";
 import { redirect, notFound } from "next/navigation";
-import Link from "next/link";
 import { auth } from "@/lib/auth";
+import { PageHeader } from "@/components/page-header";
 import { RecipeForm } from "../../recipe-form";
 import { getRecipe, updateRecipe } from "../../actions";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 type Props = {
@@ -52,13 +51,15 @@ export default async function EditRecipePage({ params }: Props) {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b">
-        <div className="mx-auto flex max-w-4xl items-center gap-4 px-4 py-4">
-          <Button variant="ghost" size="sm" asChild>
-            <Link href={`/recipes/${id}`}>&larr; Back</Link>
-          </Button>
-        </div>
-      </header>
+      <PageHeader
+        breadcrumbs={[
+          { label: "Home", href: "/" },
+          { label: "Recipes", href: "/recipes" },
+          { label: recipe.title, href: `/recipes/${id}` },
+          { label: "Edit" },
+        ]}
+        user={session.user}
+      />
       <main className="mx-auto max-w-4xl px-4 py-8">
         <Card>
           <CardHeader>

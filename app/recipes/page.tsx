@@ -1,9 +1,8 @@
 import { headers } from "next/headers";
-import Image from "next/image";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { auth } from "@/lib/auth";
-import { NavUser } from "./nav-user";
+import { PageHeader } from "@/components/page-header";
 import { getUserRecipes } from "./actions";
 import { Button } from "@/components/ui/button";
 import {
@@ -28,28 +27,19 @@ export default async function RecipesPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b">
-        <div className="mx-auto flex max-w-4xl items-center justify-between px-4 py-4">
-          <div className="flex items-center gap-3">
-            <Link href="/">
-              <Image
-                src="/chef.png"
-                alt="QRecipe logo"
-                width={32}
-                height={32}
-              />
-            </Link>
-            <h1 className="text-xl font-semibold">Recipes</h1>
-          </div>
-          <NavUser user={session.user} />
-        </div>
-      </header>
-      <main className="mx-auto max-w-4xl px-4 py-8">
-        <div className="mb-6">
+      <PageHeader
+        breadcrumbs={[
+          { label: "Home", href: "/" },
+          { label: "Recipes" },
+        ]}
+        user={session.user}
+        actions={
           <Button asChild>
             <Link href="/recipes/new">Add New Recipe</Link>
           </Button>
-        </div>
+        }
+      />
+      <main className="mx-auto max-w-4xl px-4 py-8">
 
         {recipes.length === 0 ? (
           <Card>
