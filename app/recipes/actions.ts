@@ -2,7 +2,8 @@
 
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
+import { updateTag } from "next/cache";
+import { getCachedUserRecipes, getCachedRecipe } from "@/lib/cache";
 import { eq, and, isNull } from "drizzle-orm";
 import { auth } from "@/lib/auth";
 import { db } from "@/db";
@@ -96,7 +97,7 @@ export async function createRecipe(formData: RecipeFormData) {
     }
   });
 
-  revalidatePath("/recipes");
+  updateTag(`user-recipes-${user.id}`);
   redirect("/recipes");
 }
 
@@ -185,8 +186,8 @@ export async function updateRecipe(recipeId: string, formData: RecipeFormData) {
     }
   });
 
-  revalidatePath("/recipes");
-  revalidatePath(`/recipes/${recipeId}`);
+  updateTag(`user-recipes-${user.id}`);
+  updateTag(`recipe-${recipeId}`);
   redirect(`/recipes/${recipeId}`);
 }
 
@@ -217,49 +218,17 @@ export async function deleteRecipe(recipeId: string) {
     .set({ deletedAt: new Date() })
     .where(eq(recipes.id, recipeId));
 
-  revalidatePath("/recipes");
+  updateTag(`user-recipes-${user.id}`);
+  updateTag(`recipe-${recipeId}`);
   redirect("/recipes");
 }
 
 export async function getRecipe(recipeId: string) {
   const user = await getAuthenticatedUser();
-
-  const recipe = await db.query.recipes.findFirst({
-    where: and(
-      eq(recipes.id, recipeId),
-      eq(recipes.authorId, user.id),
-      isNull(recipes.deletedAt)
-    ),
-    with: {
-      ingredients: true,
-      steps: {
-        orderBy: (steps, { asc }) => [asc(steps.order)],
-      },
-      recipeTags: {
-        with: {
-          tag: true,
-        },
-      },
-    },
-  });
-
-  return recipe;
+  return getCachedRecipe(recipeId, user.id);
 }
 
 export async function getUserRecipes() {
   const user = await getAuthenticatedUser();
-
-  const userRecipes = await db.query.recipes.findMany({
-    where: and(eq(recipes.authorId, user.id), isNull(recipes.deletedAt)),
-    orderBy: (recipes, { desc }) => [desc(recipes.createdAt)],
-    with: {
-      recipeTags: {
-        with: {
-          tag: true,
-        },
-      },
-    },
-  });
-
-  return userRecipes;
+  return getCachedUserRecipes(user.id);
 }
