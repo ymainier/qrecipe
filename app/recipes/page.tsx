@@ -3,7 +3,7 @@ import Image from "next/image";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { auth } from "@/lib/auth";
-import { SignOutButton } from "./sign-out-button";
+import { NavUser } from "./nav-user";
 import { getUserRecipes } from "./actions";
 import { Button } from "@/components/ui/button";
 import {
@@ -41,12 +41,7 @@ export default async function RecipesPage() {
             </Link>
             <h1 className="text-xl font-semibold">Recipes</h1>
           </div>
-          <div className="flex items-center gap-4">
-            <span className="text-sm text-muted-foreground">
-              {session.user.name}
-            </span>
-            <SignOutButton />
-          </div>
+          <NavUser user={session.user} />
         </div>
       </header>
       <main className="mx-auto max-w-4xl px-4 py-8">
