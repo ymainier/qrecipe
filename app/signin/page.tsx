@@ -20,6 +20,11 @@ interface SignInPageProps {
 }
 
 export default async function SignInPage({ searchParams }: SignInPageProps) {
+  const session = await auth.api.getSession({ headers: await headers() });
+  if (session) {
+    redirect("/recipes");
+  }
+
   const { error } = await searchParams;
 
   async function signIn(formData: FormData) {
