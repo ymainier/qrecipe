@@ -55,7 +55,7 @@ export default async function RecipesPage() {
               <Link key={recipe.id} href={`/recipes/${recipe.id}`}>
                 <Card className="h-full transition-shadow hover:shadow-md">
                   <CardHeader className="pb-2">
-                    <CardTitle className="line-clamp-1">{recipe.title}</CardTitle>
+                    <CardTitle className="line-clamp-1 leading-tight">{recipe.title}</CardTitle>
                     {recipe.description ? (
                       <CardDescription className="line-clamp-2">
                         {recipe.description}
