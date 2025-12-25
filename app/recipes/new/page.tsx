@@ -4,7 +4,6 @@ import { auth } from "@/lib/auth";
 import { PageHeader } from "@/components/page-header";
 import { RecipeForm } from "../recipe-form";
 import { createRecipe } from "../actions";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default async function NewRecipePage() {
   const session = await auth.api.getSession({
@@ -26,14 +25,8 @@ export default async function NewRecipePage() {
         user={session.user}
       />
       <main className="mx-auto max-w-4xl px-4 py-8">
-        <Card>
-          <CardHeader>
-            <CardTitle>Create a new recipe</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <RecipeForm onSubmit={createRecipe} submitLabel="Create Recipe" />
-          </CardContent>
-        </Card>
+        <h1 className="mb-6 text-2xl font-bold">Create a new recipe</h1>
+        <RecipeForm onSubmit={createRecipe} submitLabel="Create Recipe" />
       </main>
     </div>
   );

@@ -4,7 +4,6 @@ import { auth } from "@/lib/auth";
 import { PageHeader } from "@/components/page-header";
 import { RecipeForm } from "../../recipe-form";
 import { getRecipe, updateRecipe } from "../../actions";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -61,18 +60,12 @@ export default async function EditRecipePage({ params }: Props) {
         user={session.user}
       />
       <main className="mx-auto max-w-4xl px-4 py-8">
-        <Card>
-          <CardHeader>
-            <CardTitle>Edit {recipe.title}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <RecipeForm
-              initialData={initialData}
-              onSubmit={handleUpdate}
-              submitLabel="Save Changes"
-            />
-          </CardContent>
-        </Card>
+        <h1 className="mb-6 text-2xl font-bold">Edit {recipe.title}</h1>
+        <RecipeForm
+          initialData={initialData}
+          onSubmit={handleUpdate}
+          submitLabel="Save Changes"
+        />
       </main>
     </div>
   );
