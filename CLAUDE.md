@@ -6,7 +6,7 @@ Recipe storage and display application built with Next.js.
 
 ## Tech Stack
 
-- **Framework:** Next.js 15 (App Router)
+- **Framework:** Next.js 16 (App Router, Turbopack)
 - **Language:** TypeScript
 - **Auth:** Better Auth
 - **Database:** PostgreSQL
@@ -14,32 +14,33 @@ Recipe storage and display application built with Next.js.
   - Development: Postgres in Docker
   - Tests: Postgres in Docker (separate container)
 - **ORM:** Drizzle
-- **Deployment:** Vercel
+- **Deployment:** Vercel (with Speed Insights)
 
 ## Project Structure
 
 ```
-src/
-├── app/                  # Next.js App Router pages
-├── components/           # React components
-├── db/
-│   ├── schema.ts         # Drizzle schema definitions
-│   ├── index.ts          # DB connection
-│   └── migrations/       # Drizzle migrations
-├── lib/
-│   ├── auth.ts           # Better Auth config
-│   └── ...
-└── types/                # Shared TypeScript types
+app/                      # Next.js App Router pages
+components/               # React components (includes shadcn/ui)
+db/
+├── schema.ts             # Drizzle schema definitions
+├── index.ts              # DB connection
+├── seed.ts               # Database seeding script
+└── migrations/           # Drizzle migrations
+lib/
+├── auth.ts               # Better Auth server config
+├── auth-client.ts        # Better Auth client config
+├── cache.ts              # React cache wrapper
+└── utils.ts              # Utility functions (cn)
 ```
 
 ## Commands
 
-- `pnpm dev` — Start dev server
+- `pnpm dev` — Start dev server (Turbopack)
 - `pnpm build` — Production build
-- `pnpm test` — Run tests
 - `pnpm db:generate` — Generate Drizzle migrations
 - `pnpm db:migrate` — Run migrations
 - `pnpm db:studio` — Open Drizzle Studio
+- `pnpm db:seed` — Seed database with sample data
 
 ## Code Style
 
@@ -54,7 +55,7 @@ src/
 
 Core entities:
 - **users** — Managed by Better Auth
-- **recipes** — title, description, servings, prepTime, cookTime, authorId
+- **recipes** — title, description, servings, prepTime, cookTime, imageUrl, authorId
 - **ingredients** — name, quantity, unit, recipeId
 - **steps** — order, instruction, recipeId
 - **tags** — name (many-to-many with recipes)
