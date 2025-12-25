@@ -1,0 +1,1 @@
+CREATE INDEX "idx_recipes_author_deleted" ON "recipes" USING btree ("author_id","deleted_at");

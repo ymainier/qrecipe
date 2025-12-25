@@ -5,6 +5,7 @@ import {
   integer,
   boolean,
   primaryKey,
+  index,
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 
@@ -60,21 +61,27 @@ export const verifications = pgTable("verifications", {
 });
 
 // Application tables
-export const recipes = pgTable("recipes", {
-  id: text("id").primaryKey(),
-  title: text("title").notNull(),
-  description: text("description"),
-  servings: integer("servings"),
-  prepTime: integer("prep_time"), // in minutes
-  cookTime: integer("cook_time"), // in minutes
-  imageUrl: text("image_url"),
-  authorId: text("author_id")
-    .notNull()
-    .references(() => users.id, { onDelete: "cascade" }),
-  createdAt: timestamp("created_at").notNull().defaultNow(),
-  updatedAt: timestamp("updated_at").notNull().defaultNow(),
-  deletedAt: timestamp("deleted_at"), // soft delete
-});
+export const recipes = pgTable(
+  "recipes",
+  {
+    id: text("id").primaryKey(),
+    title: text("title").notNull(),
+    description: text("description"),
+    servings: integer("servings"),
+    prepTime: integer("prep_time"), // in minutes
+    cookTime: integer("cook_time"), // in minutes
+    imageUrl: text("image_url"),
+    authorId: text("author_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    createdAt: timestamp("created_at").notNull().defaultNow(),
+    updatedAt: timestamp("updated_at").notNull().defaultNow(),
+    deletedAt: timestamp("deleted_at"), // soft delete
+  },
+  (table) => [
+    index("idx_recipes_author_deleted").on(table.authorId, table.deletedAt),
+  ]
+);
 
 export const ingredients = pgTable("ingredients", {
   id: text("id").primaryKey(),
