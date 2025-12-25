@@ -1,5 +1,4 @@
 import { Skeleton } from "@/components/ui/skeleton";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 
 function PageHeaderSkeleton() {
@@ -29,54 +28,50 @@ export default function RecipeLoading() {
       <PageHeaderSkeleton />
 
       <main className="mx-auto max-w-4xl px-4 py-8">
-        <Card>
-          <CardHeader>
-            <Skeleton className="h-8 w-2/3" />
-          </CardHeader>
+        <Skeleton className="h-8 w-2/3" />
 
-          <CardContent className="space-y-6">
-            <div className="flex flex-wrap gap-4">
-              <Skeleton className="h-4 w-20" />
-              <Skeleton className="h-4 w-20" />
-              <Skeleton className="h-4 w-20" />
-              <Skeleton className="h-4 w-20" />
+        <div className="mt-6 space-y-6">
+          <div className="flex flex-wrap gap-4">
+            <Skeleton className="h-4 w-20" />
+            <Skeleton className="h-4 w-20" />
+            <Skeleton className="h-4 w-20" />
+            <Skeleton className="h-4 w-20" />
+          </div>
+
+          <div className="flex flex-wrap gap-2">
+            <Skeleton className="h-5 w-16 rounded-full" />
+            <Skeleton className="h-5 w-14 rounded-full" />
+            <Skeleton className="h-5 w-12 rounded-full" />
+          </div>
+
+          <Separator />
+
+          <div>
+            <Skeleton className="mb-4 h-6 w-24" />
+            <div className="space-y-4">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <div key={i} className="flex items-start gap-2">
+                  <Skeleton className="h-2 w-2" />
+                  <Skeleton className="h-4 w-full max-w-xs" />
+                </div>
+              ))}
             </div>
+          </div>
 
-            <div className="flex flex-wrap gap-2">
-              <Skeleton className="h-5 w-16 rounded-full" />
-              <Skeleton className="h-5 w-14 rounded-full" />
-              <Skeleton className="h-5 w-12 rounded-full" />
+          <Separator />
+
+          <div>
+            <Skeleton className="mb-4 h-6 w-24" />
+            <div className="space-y-4">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <div key={i} className="flex gap-4">
+                  <Skeleton className="h-8 w-8 shrink-0 rounded-full" />
+                  <Skeleton className="h-16 w-full" />
+                </div>
+              ))}
             </div>
-
-            <Separator />
-
-            <div>
-              <Skeleton className="mb-4 h-6 w-24" />
-              <div className="space-y-2">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <div key={i} className="flex items-start gap-2">
-                    <Skeleton className="h-4 w-4" />
-                    <Skeleton className="h-4 w-full max-w-xs" />
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <Separator />
-
-            <div>
-              <Skeleton className="mb-4 h-6 w-24" />
-              <div className="space-y-4">
-                {Array.from({ length: 4 }).map((_, i) => (
-                  <div key={i} className="flex gap-4">
-                    <Skeleton className="h-8 w-8 shrink-0 rounded-full" />
-                    <Skeleton className="h-16 w-full" />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </main>
     </div>
   );
