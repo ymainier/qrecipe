@@ -9,6 +9,10 @@ import { DeleteRecipeButton } from "./delete-button";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import {
+  RecipeTitleTransition,
+  RecipeImageTransition,
+} from "@/components/recipe-transitions";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -54,17 +58,21 @@ export default async function RecipePage({ params }: Props) {
 
       <main className="mx-auto max-w-4xl px-4 py-8">
         {recipe.imageUrl ? (
-          <Image
-            src={recipe.imageUrl}
-            alt={recipe.title}
-            width={896}
-            height={256}
-            className="mb-6 h-64 w-full rounded-xl object-cover"
-            unoptimized
-          />
+          <RecipeImageTransition recipeId={id}>
+            <Image
+              src={recipe.imageUrl}
+              alt={recipe.title}
+              width={896}
+              height={256}
+              className="mb-6 h-64 w-full rounded-xl object-cover"
+              unoptimized
+            />
+          </RecipeImageTransition>
         ) : null}
 
-        <h1 className="text-2xl font-bold">{recipe.title}</h1>
+        <RecipeTitleTransition recipeId={id}>
+          <h1 className="text-2xl font-bold">{recipe.title}</h1>
+        </RecipeTitleTransition>
         {recipe.description ? (
           <p className="mt-2 text-muted-foreground">{recipe.description}</p>
         ) : null}

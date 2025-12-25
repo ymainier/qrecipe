@@ -13,6 +13,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { RecipeTitleTransition } from "@/components/recipe-transitions";
 
 export default async function RecipesPage() {
   const session = await auth.api.getSession({
@@ -55,7 +56,11 @@ export default async function RecipesPage() {
               <Link key={recipe.id} href={`/recipes/${recipe.id}`}>
                 <Card className="h-full transition-shadow hover:shadow-md">
                   <CardHeader className="pb-2">
-                    <CardTitle className="line-clamp-1 leading-tight">{recipe.title}</CardTitle>
+                    <RecipeTitleTransition recipeId={recipe.id}>
+                      <CardTitle className="line-clamp-1 leading-tight">
+                        {recipe.title}
+                      </CardTitle>
+                    </RecipeTitleTransition>
                     {recipe.description ? (
                       <CardDescription className="line-clamp-2">
                         {recipe.description}
