@@ -47,13 +47,11 @@ export function RecipeForm({
   const [error, setError] = useState<string | null>(null);
 
   const [title, setTitle] = useState(initialData?.title ?? "");
-  const [description, setDescription] = useState(
-    initialData?.description ?? ""
-  );
+  const [description] = useState(initialData?.description ?? "");
   const [servings, setServings] = useState(initialData?.servings ?? "");
   const [prepTime, setPrepTime] = useState(initialData?.prepTime ?? "");
   const [cookTime, setCookTime] = useState(initialData?.cookTime ?? "");
-  const [imageUrl, setImageUrl] = useState(initialData?.imageUrl ?? "");
+  const [imageUrl] = useState(initialData?.imageUrl ?? "");
 
   const [ingredients, setIngredients] = useState<Ingredient[]>(
     initialData?.ingredients ?? [{ name: "", quantity: "", unit: "" }]

@@ -1,6 +1,7 @@
 import { headers } from "next/headers";
 import { redirect, notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { auth } from "@/lib/auth";
 import { PageHeader } from "@/components/page-header";
 import { getRecipe } from "../actions";
@@ -55,10 +56,13 @@ export default async function RecipePage({ params }: Props) {
       <main className="mx-auto max-w-4xl px-4 py-8">
         <Card>
           {recipe.imageUrl ? (
-            <img
+            <Image
               src={recipe.imageUrl}
               alt={recipe.title}
+              width={896}
+              height={256}
               className="h-64 w-full rounded-t-xl object-cover"
+              unoptimized
             />
           ) : null}
 

@@ -2,6 +2,7 @@ import { Fragment } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { NavUser } from "@/components/nav-user";
+import { truncateText } from "@/lib/string-helpers";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -23,13 +24,6 @@ interface PageHeaderProps {
     email: string;
   };
   actions?: React.ReactNode;
-}
-
-function truncateText(text: string, maxLength: number): string {
-  if (text.length <= maxLength) {
-    return text;
-  }
-  return text.slice(0, maxLength) + "...";
 }
 
 export function PageHeader({ breadcrumbs, user, actions }: PageHeaderProps) {

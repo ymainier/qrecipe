@@ -41,6 +41,9 @@ lib/
 - `pnpm db:migrate` — Run migrations
 - `pnpm db:studio` — Open Drizzle Studio
 - `pnpm db:seed` — Seed database with sample data
+- `pnpm typecheck` — check types with tsc
+- `pnpm lint` — lint
+- `pnpm test` — run unit tests
 
 ## Code Style
 
